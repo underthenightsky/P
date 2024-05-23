@@ -87,7 +87,7 @@ const playSound = () => {
           {/* // Placing FAb inside List.Accordion causes it to be visible only when the Accordion is expanded   */}
         <List.Item title="A"  onPress={()=>{setScript('a_for_apple')}}/>
         <List.Item title="B" onPress={()=>{setScript('b_for_banana')}}/>
-        {/* The buttons were added to choose the required script from the available options */}
+        {/* The buttons were added to choose the required script from the available options but there are some issues in the redux toolkit which cause an error */}
 
       </List.Accordion>
       <FAB
