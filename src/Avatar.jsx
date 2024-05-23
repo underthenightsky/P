@@ -66,6 +66,14 @@ const corresponding_arr =["viseme_PP","viseme_kk","viseme_I","viseme_AA","viseme
 
 // });
 
+function change (){
+  nodes.Wolf3D_Head.morphTargetInfluences[
+    nodes.Wolf3D_Head.morphTargetDictionary[corresponding_arr[Math.floor(Math.random()*corresponding_arr.length)]]
+   ]=1;
+   nodes.Wolf3D_Teeth.morphTargetInfluences[
+    nodes.Wolf3D_Teeth.morphTargetDictionary[corresponding_arr[Math.floor(Math.random()*corresponding_arr.length)]]
+   ]=1;
+}
 
 useFrame ((state,delta =1)=>{
   Object.values(corresponding).forEach((value)=>{
@@ -76,12 +84,13 @@ useFrame ((state,delta =1)=>{
       nodes.Wolf3D_Teeth.morphTargetDictionary[value]
     ]=0;
   });
-         nodes.Wolf3D_Head.morphTargetInfluences[
-          nodes.Wolf3D_Head.morphTargetDictionary[corresponding_arr[Math.floor(Math.random()*corresponding_arr.length)]]
-         ]=1;
-         nodes.Wolf3D_Teeth.morphTargetInfluences[
-          nodes.Wolf3D_Teeth.morphTargetDictionary[corresponding_arr[Math.floor(Math.random()*corresponding_arr.length)]]
-         ]=1;
+ const chosenViseme = corresponding_arr[Math.floor(Math.random()*corresponding_arr.length)];
+    nodes.Wolf3D_Head.morphTargetInfluences[
+      nodes.Wolf3D_Head.morphTargetDictionary[chosenViseme]
+     ]=1;
+     nodes.Wolf3D_Teeth.morphTargetInfluences[
+      nodes.Wolf3D_Teeth.morphTargetDictionary[chosenViseme]
+     ]=1
       });
 
   //     useFrame ((state, delta, xrFrame)=>{
