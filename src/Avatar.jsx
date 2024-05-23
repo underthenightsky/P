@@ -4,17 +4,18 @@ import Sound from 'react-native-sound';
 import { useSelector } from 'react-redux';
 import { useTimer } from 'use-timer';
 import { StyleSheet,View } from 'react-native';
-import { current } from '@reduxjs/toolkit';
+import { useFrame } from '@react-three/fiber/native';
 
 export default function Avatar(props) {
-  const { nodes, materials } = useGLTF(require('./avatar.glb'));
+  const { nodes, materials } = useGLTF(require('../public/avatar/avatar_morph_2.glb'));
   const {animations:idleAnimation} = useFBX(require('../public/avatar/Idle.fbx'));
   const {animations:angryAnimation} = useFBX(require('../public/avatar/Angry.fbx'));
   const {animations:greetAnimation} = useFBX(require('../public/avatar/Standing_Greeting.fbx'));
-  const [animation,setAnimation] = useState("Idle");
+  const {animations:talking} = useFBX(require('../public/avatar/Talking.fbx'));
+  const [animation,setAnimation] = useState("Talking");
 
 
- const lipsync =  require('../public/voice_recordings/a_for_apple.json');
+ const lipsync =  require('../public/voice_recordings/fin_introduction.json');
  // json mouth cues for the sound
 
   
@@ -32,17 +33,22 @@ const corresponding ={
   I:"viseme_PP",
 };
 
-  
+const corresponding_arr =["viseme_PP","viseme_kk","viseme_I","viseme_AA","viseme_O","viseme_U",
+"viseme_FF","viseme_TH","viseme_PP"];  
   idleAnimation[0].name = "Idle";
   angryAnimation[0].name = "Angry";
   greetAnimation[0].name = "Greet";
+  talking[0].name = "Talking";
 // Animations available for the avatar  
 
-  const[playAudio,setPlayAudio] = useState(false);
-  const script =useSelector(state=>state);
+
   // console.log(script);
   const group = useRef();
-  const {actions}=useAnimations([idleAnimation[0],angryAnimation[0],greetAnimation[0]],group);
+  const {actions}=useAnimations([idleAnimation[0],angryAnimation[0],greetAnimation[0],talking[0]],group);
+
+  var currentTime = Date.now() ;
+
+  
 
 //   useEffect(()=>{ 
 //     const currentTime = Date.now() ;
@@ -57,75 +63,11 @@ const corresponding ={
 // const {time, start,pause,reset,status} =useTimer();
 // The above piece of code has been created to stop the useFrame function from running beyond the required time limit
 
-const currentTime = Date.now() ;
 
-// useFrame (()=>{
-//   Object.values(corresponding).forEach((value)=>{
-//     nodes.Wolf3D_Head.morphTargetInfluences[
-//       nodes.Wolf3D_Head.morphTargetDictionary[value]
-//     ]=0;
-//     nodes.Wolf3D_Teeth.morphTargetInfluences[
-//       nodes.Wolf3D_Teeth.morphTargetDictionary[value]
-//     ]=0;
-//   });
-
-//   // nodes.Wolf3D_Head.morphTargetInfluences[
-//   //   nodes.Wolf3D_Head.morphTargetDictionary[corresponding[mouthCue.value]]
-//   //  ]=0;
-//   //   nodes.Wolf3D_Teeth.morphTargetInfluences[
-//   //     nodes.Wolf3D_Teeth.morphTargetDictionary[corresponding[mouthCue.value]]
-//   //   ]=0;
-
-//        const mouthCue = lipsync.mouthCues.filter((mouthCue) => mouthCue.start <= (Date.now()-currentTime)/5000 && mouthCue.end >= (Date.now()-currentTime)/5000);
-//        if(mouthCue=== null){
-//     console.log(mouthCue,Date.now()-currentTime);
-//          nodes.Wolf3D_Head.morphTargetInfluences[
-//           nodes.Wolf3D_Head.morphTargetDictionary[corresponding[mouthCue.value]]
-//          ]=1;
-//           nodes.Wolf3D_Teeth.morphTargetInfluences[
-//             nodes.Wolf3D_Teeth.morphTargetDictionary[corresponding[mouthCue.value]]
-//           ]=1;
-//           currentMouthCue = mouthCue[0].value;
-       
-    
-//         }
-//       });
 // });
 
 
-useEffect(()=>{
-  actions[animation].reset().fadeIn(0.5).play();
-  return () => actions[animation].fadeOut(0.5);
-},[]); // To load the animation for the avatar, it originally loads the idle animation and changed based on the 
-        // the animation variable 
-
-
-// changeAnimation function , I had hoped it would be helpful to change the animation based on the sound cues
-function changeAnimation(){
-  const mouthCue = lipsync.mouthCues.filter((mouthCue) => mouthCue.start <= (Date.now()-currentTime)/5000 && mouthCue.end >= (Date.now()-currentTime)/5000);
-  if(mouthCue=== null){
-console.log(mouthCue,Date.now()-currentTime);
-    nodes.Wolf3D_Head.morphTargetInfluences[
-     nodes.Wolf3D_Head.morphTargetDictionary[corresponding[mouthCue.value]]
-    ]=1;
-     nodes.Wolf3D_Teeth.morphTargetInfluences[
-       nodes.Wolf3D_Teeth.morphTargetDictionary[corresponding[mouthCue.value]]
-     ]=1;
-     currentMouthCue = mouthCue[0].value;
-  
-
-   }
- };
-
-
- // The following useEffect function was  designed  to change the animation based on the sound cues
- // It was not successful in changing the animation based on the sound cues and does nothing except load the idle animation with smile
-
-useEffect(()=>{
-  console.log(nodes.Wolf3D_Head.morphTargetDictionary);
-  nodes.Wolf3D_Head.morphTargetInfluences[
-    nodes.Wolf3D_Head.morphTargetDictionary["mouthSmile"]
-  ]=1;
+useFrame ((state,delta =1)=>{
   Object.values(corresponding).forEach((value)=>{
     nodes.Wolf3D_Head.morphTargetInfluences[
       nodes.Wolf3D_Head.morphTargetDictionary[value]
@@ -134,31 +76,100 @@ useEffect(()=>{
       nodes.Wolf3D_Teeth.morphTargetDictionary[value]
     ]=0;
   });
+         nodes.Wolf3D_Head.morphTargetInfluences[
+          nodes.Wolf3D_Head.morphTargetDictionary[corresponding_arr[Math.floor(Math.random()*corresponding_arr.length)]]
+         ]=1;
+         nodes.Wolf3D_Teeth.morphTargetInfluences[
+          nodes.Wolf3D_Teeth.morphTargetDictionary[corresponding_arr[Math.floor(Math.random()*corresponding_arr.length)]]
+         ]=1;
+      });
+
+  //     useFrame ((state, delta, xrFrame)=>{
+  // while ((Date.now()-currentTime)/1000<lipsync.mouthCues[lipsync.mouthCues.length-1].end){
+   
+  // Object.values(corresponding).forEach((value)=>{
+  //   nodes.Wolf3D_Head.morphTargetInfluences[
+  //     nodes.Wolf3D_Head.morphTargetDictionary[value]
+  //   ]=0;
+  //   nodes.Wolf3D_Teeth.morphTargetInfluences[
+  //     nodes.Wolf3D_Teeth.morphTargetDictionary[value]
+  //   ]=0;
+  // });
 
  
+  //       //  nodes.Wolf3D_Head.morphTargetInfluences[
+  //       //   nodes.Wolf3D_Head.morphTargetDictionary[corresponding_arr[Math.floor(Math.random()*corresponding_arr.length)]]
+  //       //  ]=1;
+  //        var currentMouthCue=lipsync.mouthCues.filter((mouthCue) => mouthCue.start <= (Date.now()-currentTime)/1000 && mouthCue.end >= (Date.now()-currentTime)/1000)
+  //       //  console.log(currentMouthCue,corresponding[currentMouthCue[0].value]);
+  //        var visemeMouthCue = corresponding[currentMouthCue[0].value];
+  //        if (typeof visemeMouthCue === undefined){
+  //         visemeMouthCue = "viseme_PP";
+  //        }
+  //        nodes.Wolf3D_Head.morphTargetInfluences[
+  //         nodes.Wolf3D_Head.morphTargetDictionary[corresponding[visemeMouthCue]]
+  //        ]=1;
+  //        nodes.Wolf3D_Teeth.morphTargetInfluences[
+  //         nodes.Wolf3D_Teeth.morphTargetDictionary[corresponding[visemeMouthCue]]
+  //        ]=1;
+  //       }   
+  //       if ((Date.now()-currentTime)/1000>=lipsync.mouthCues[lipsync.mouthCues.length-1].end){
+  //         currentTime=Date.now();
+  //       }
+  //     });
 
-       const mouthCue = lipsync.mouthCues.filter((mouthCue) => mouthCue.start <= (Date.now()-currentTime)/5000 && mouthCue.end >= (Date.now()-currentTime)/5000);
-       if(mouthCue=== null){
-    console.log(mouthCue,Date.now()-currentTime);
-         nodes.Wolf3D_Head.morphTargetInfluences[
-          nodes.Wolf3D_Head.morphTargetDictionary[corresponding[mouthCue.value]]
-         ]=1;
-          nodes.Wolf3D_Teeth.morphTargetInfluences[
-            nodes.Wolf3D_Teeth.morphTargetDictionary[corresponding[mouthCue.value]]
-          ]=1;
-          currentMouthCue = mouthCue[0].value;     
-    
-        }
 
-},[lipsync.mouthCues[lipsync.mouthCues.length-1].end*100>Date.now()-currentTime?Date.now()-currentTime:null])
+
+// Put useFrame inside UseEffect , check his code structure     
+// The following useEffect function was  designed  to change the animation based on the sound cues
+ // It was not successful in changing the animation based on the sound cues and does nothing except load the idle animation with smile
+
+useEffect(()=>{
+  actions[animation].reset().play();
+  
+  return () => actions[animation].fadeOut();
+},[animation]); 
 
 
 
+useEffect(()=>{
+  console.log(nodes.Wolf3D_Head.morphTargetDictionary);
+  nodes.Wolf3D_Head.morphTargetInfluences[
+    nodes.Wolf3D_Head.morphTargetDictionary["mouthSmile"]
+  ]=1;
+  var whoosh = new Sound('fin_introduction.mp3', Sound.MAIN_BUNDLE, (error) => {
+    if (error) {
+      console.log('failed to load the sound', error);
+      return;
+    }
+    // loaded successfully
+    console.log('duration in seconds: ' + whoosh.getDuration() + 'number of channels: ' + whoosh.getNumberOfChannels());
+  
+    // Play the sound with an onEnd callback
+    whoosh.play((success) => {
+      if (success) {
+        console.log('successfully finished playing');
+      } else {
+        console.log('playback failed due to audio decoding errors');
+      }
+    });
+  });
+// setAnimation['Idle'];
+},[])
+
+
+// To load the animation for the avatar, it originally loads the idle animation and changed based on the 
+        // the animation variable 
+
+
+      
  
 
   return (
     
-    <group {...props} dispose={null} ref={group}>
+    <group {...props} dispose={null} 
+    ref={group}
+    >
       <primitive object={nodes.Hips} />
       <skinnedMesh
         name="EyeLeft"

@@ -28,8 +28,8 @@ const App = () => {
 
 
   // the function below is used to play the sound, but it dosent work as expected,  
-  const playSound = () => {
-    var whoosh = new Sound('a_for_apple.mp3', Sound.MAIN_BUNDLE, (error) => {
+const playSound = () => {
+    var whoosh = new Sound('fin_introduction.mp3', Sound.MAIN_BUNDLE, (error) => {
       if (error) {
         console.log('failed to load the sound', error);
         return;
@@ -68,7 +68,7 @@ const App = () => {
   }}
      >
   <directionalLight position={[2,1,8]}/>
-        <Suspense>
+        <Suspense fallback={null}>
     <Avatar position={[0,-3,5]} scale ={2}/>
         </Suspense>
      </Canvas>
