@@ -12,14 +12,16 @@ const App = () => {
   const handlePress = () => setExpanded(!expanded);
 
   const dispatch = useDispatch();
-// The following function is used to set the script for the avatar, but it dosent work as expected, 
-// warn in extras/redux_warn.txt file
+// The following function is used to set the script for the avatar
 
   const setScript =(item)=>{
     dispatch(setScript({script:item,playAudio:false}));
      currentScript =useSelector(state=>state.datas);
     console.log(currentScript);
-  }; // The following was initially designed to communicate to the Avatar.jsx file 
+
+
+  }; 
+  // The following was initially designed to communicate to the Avatar.jsx file 
   const setPlayAudio =()=>{
     dispatch(setPlayAudio({script:'a_for_apple',playAudio:true}));
 
@@ -27,7 +29,7 @@ const App = () => {
   };
 
 
-  // the function below is used to play the sound, but it dosent work as expected,  
+  // the function below is used to play the sound
 const playSound = () => {
     var whoosh = new Sound('fin_introduction.mp3', Sound.MAIN_BUNDLE, (error) => {
       if (error) {
@@ -85,7 +87,7 @@ const playSound = () => {
           {/* // Placing FAb inside List.Accordion causes it to be visible only when the Accordion is expanded   */}
         <List.Item title="A"  onPress={()=>{setScript('a_for_apple')}}/>
         <List.Item title="B" onPress={()=>{setScript('b_for_banana')}}/>
-        {/* The buttons were added to choose the required script from the available options but the Maximum stack exceeded error on clicking */}
+        {/* The buttons were added to choose the required script from the available options */}
 
       </List.Accordion>
       <FAB

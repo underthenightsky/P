@@ -21,6 +21,9 @@ export default function Avatar(props) {
   
   // console.log(lipsync.mouthCues[lipsync.mouthCues.length-1].end); value for last mouth cue from 
   // the json file  for the sound 
+
+  // The following array is used to convert the moth cue 
+  //  values from the json file to the corresponding viseme values
 const corresponding ={
   A:"viseme_PP",
   B:"viseme_kk",
@@ -32,9 +35,11 @@ const corresponding ={
   H:"viseme_TH",
   I:"viseme_PP",
 };
-
+// An array of all the viseme value availabel to us
 const corresponding_arr =["viseme_PP","viseme_kk","viseme_I","viseme_AA","viseme_O","viseme_U",
 "viseme_FF","viseme_TH","viseme_PP"];  
+
+
   idleAnimation[0].name = "Idle";
   angryAnimation[0].name = "Angry";
   greetAnimation[0].name = "Greet";
@@ -60,21 +65,9 @@ const corresponding_arr =["viseme_PP","viseme_kk","viseme_I","viseme_AA","viseme
 // The above piece of code is used to to print the sound cues from the json file for the sound
 
 
-// const {time, start,pause,reset,status} =useTimer();
-// The above piece of code has been created to stop the useFrame function from running beyond the required time limit
-
-
-// });
-
-function change (){
-  nodes.Wolf3D_Head.morphTargetInfluences[
-    nodes.Wolf3D_Head.morphTargetDictionary[corresponding_arr[Math.floor(Math.random()*corresponding_arr.length)]]
-   ]=1;
-   nodes.Wolf3D_Teeth.morphTargetInfluences[
-    nodes.Wolf3D_Teeth.morphTargetDictionary[corresponding_arr[Math.floor(Math.random()*corresponding_arr.length)]]
-   ]=1;
-}
-
+// Use Frame re-rennders the model each frame
+// This function randomly selects a viseme value from the array of viseme values
+// using a setTimeout caused the mothciues to not change
 useFrame ((state,delta =1)=>{
   Object.values(corresponding).forEach((value)=>{
     nodes.Wolf3D_Head.morphTargetInfluences[
@@ -92,6 +85,10 @@ useFrame ((state,delta =1)=>{
       nodes.Wolf3D_Teeth.morphTargetDictionary[chosenViseme]
      ]=1
       });
+
+
+  // The following piece of code is used to change the mouth cues based on the json file for the sound
+  // but it causes the model to load after the sound has been played 
 
   //     useFrame ((state, delta, xrFrame)=>{
   // while ((Date.now()-currentTime)/1000<lipsync.mouthCues[lipsync.mouthCues.length-1].end){
@@ -129,9 +126,6 @@ useFrame ((state,delta =1)=>{
 
 
 
-// Put useFrame inside UseEffect , check his code structure     
-// The following useEffect function was  designed  to change the animation based on the sound cues
- // It was not successful in changing the animation based on the sound cues and does nothing except load the idle animation with smile
 
 useEffect(()=>{
   actions[animation].reset().play();
@@ -163,22 +157,14 @@ useEffect(()=>{
       }
     });
   });
-// setAnimation['Idle'];
+setAnimation['Idle'];
+// Changing the animation to idle after the sound has been played
 },[])
-
-
-// To load the animation for the avatar, it originally loads the idle animation and changed based on the 
-        // the animation variable 
-
-
-      
  
 
   return (
     
-    <group {...props} dispose={null} 
-    ref={group}
-    >
+    <group {...props} dispose={null}  ref={group}    >
       <primitive object={nodes.Hips} />
       <skinnedMesh
         name="EyeLeft"
@@ -248,12 +234,6 @@ useEffect(()=>{
   )
 };
 
-const styles = StyleSheet.create({
-  fab: {
-    position: 'absolute',
-    right: 0,
-    bottom: 45,
-  },
-})
+
 useGLTF.preload('../public/avatar/avatar_morph_2.glb')
 
