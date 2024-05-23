@@ -1,4 +1,6 @@
 This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Description
+3D Avatar based learning system for children to learn pronnunciation and reading All the relevant description of functions and packages and issues faced have been mentioned in the Code. Main files are App.js and Avatar.jsx(in src folder) .Avatar.jsx file has been created by using glb to jsx converter, Animations have been addded using Mixamo. Json file from audios have been created using Rhubarb.js Redux has been implemented for state management
 
 # Getting Started
 
