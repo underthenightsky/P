@@ -1,12 +1,14 @@
 import { View, Text,StyleSheet } from 'react-native'
-import React, { Suspense,useEffect,useState } from 'react'
+import  { Suspense,useEffect,useState,TextInput,Button  } from 'react'
 import Avatar from './src/Avatar'
-import Sound from 'react-native-sound';
 import {List,FAB } from 'react-native-paper';
 import { Canvas } from '@react-three/fiber/native'
 import { useDispatch,useSelector } from 'react-redux';
+// import * as Speech from 'expo-speech';
+import React from 'react';
 
 const App = () => {
+  const[name , setName ] = useState('');
   const [expanded, setExpanded] = useState(true);
 
   const handlePress = () => setExpanded(!expanded);
@@ -69,6 +71,7 @@ const playSound = () => {
     };
   }}
      >
+      
   <directionalLight position={[2,1,8]}/>
         <Suspense fallback={null}>
     <Avatar position={[0,-3,5]} scale ={2}/>

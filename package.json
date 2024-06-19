@@ -10,11 +10,14 @@
     "test": "jest"
   },
   "dependencies": {
+    "@babel/plugin-transform-private-methods": "^7.24.7",
+    "@react-native-voice/voice": "^3.2.4",
     "@react-three/drei": "^9.105.6",
     "@react-three/fiber": "^8.16.6",
     "@reduxjs/toolkit": "^2.2.5",
     "expo": "^51.0.0",
     "expo-gl": "~14.0.2",
+    "expo-speech": "~12.0.2",
     "leva": "^0.9.35",
     "metro-react-native-babel-preset": "^0.77.0",
     "r3f-native-orbitcontrols": "^1.0.12",
