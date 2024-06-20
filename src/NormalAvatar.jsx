@@ -37,22 +37,6 @@ export default function Avatar(props) {
   const startTime = useRef(null);
   const[script ,setScript] = useState('letter_s');
   
-//   async function fetchJsonFile(script) {
-//     try {
-//         const response = await fetch(`../public/voice_recordings/letter_s.json`);
-        
-//         if (!response.ok) {
-//             throw new Error('Network response was not ok ' + response.statusText);
-//         }
-
-//         const data = await response.json();
-//         console.log(data); // Do something with the data
-//     } catch (error) {
-//         console.error('There has been a problem with your fetch operation:', error);
-//     }
-// }
-
-
 
   
   useEffect(() => {
@@ -79,7 +63,10 @@ export default function Avatar(props) {
     return () => {
       if (sound.current) {
         sound.current.release();
-      }
+      };
+      console.log(script);
+    //   setScript('fantastic');
+      console.log(script);
     };
   }, [script]);
 
@@ -120,7 +107,8 @@ export default function Avatar(props) {
  
   lipsync= require('../public/voice_recordings/fantastic.json');
 
-//   setTimeout(sounds,5000);
+  setTimeout(sounds,12000);
+  startTime.current= Date.now();
 //   setScript('fantastic');
 
 return (

@@ -11,7 +11,7 @@ export default function Avatar(props) {
   const { animations: talking } = useFBX(require('../public/avatar/Talking.fbx'));
   const [animation, setAnimation] = useState('Talking');
 
-  const lipsync = require('../public/voice_recordings/fin_introduction.json');
+  const lipsync = require('../public/voice_recordings/jithu_intro.json');
 
   const corresponding = {
     A: 'viseme_PP',
@@ -43,7 +43,7 @@ export default function Avatar(props) {
   }, [animation]);
   
   useEffect(() => {
-    sound.current = new Sound('fin_introduction.mp3', Sound.MAIN_BUNDLE, (error) => {
+    sound.current = new Sound('jithu_intro.mp3', Sound.MAIN_BUNDLE, (error) => {
       if (error) {
         console.log('failed to load the sound', error);
         return;
