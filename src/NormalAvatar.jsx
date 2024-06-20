@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { useGLTF, useAnimations, useFBX } from '@react-three/drei/native';
 import Sound from 'react-native-sound';
 import { useFrame } from '@react-three/fiber/native';
+import { setScript } from '../redux_toolkit/scriptSlice';
 
 export default function Avatar(props) {
   const { nodes, materials } = useGLTF(require('../public/avatar/avatar_morph_2.glb'));
@@ -11,8 +12,7 @@ export default function Avatar(props) {
   const { animations: talking } = useFBX(require('../public/avatar/Talking.fbx'));
   const [animation, setAnimation] = useState('Talking');
 
-  const lipsync = require('../public/voice_recordings/fin_introduction.json');
-
+ 
   const corresponding = {
     A: 'viseme_PP',
     B: 'viseme_kk',
@@ -31,68 +31,97 @@ export default function Avatar(props) {
   talking[0].name = 'Talking';
 
   const group = useRef();
-//   const { actions } = useAnimations([idleAnimation[0], angryAnimation[0], greetAnimation[0], talking[0]], group);
+  const { actions } = useAnimations([idleAnimation[0], angryAnimation[0], greetAnimation[0], talking[0]], group);
 
   const sound = useRef(null);
   const startTime = useRef(null);
-
-
-//   useEffect(() => {
-//     actions[animation].reset().play();
-//     return () => actions[animation].fadeOut();
-//   }, [animation]);
+  const[script ,setScript] = useState('letter_s');
   
-//   useEffect(() => {
-//     sound.current = new Sound('fin_introduction.mp3', Sound.MAIN_BUNDLE, (error) => {
-//       if (error) {
-//         console.log('failed to load the sound', error);
-//         return;
-//       }
-//       console.log('duration in seconds: ' + sound.current.getDuration() + 'number of channels: ' + sound.current.getNumberOfChannels());
-
-//       sound.current.play((success) => {
-//         if (success) {
-//           console.log('successfully finished playing');
-//           setAnimation('Idle');
-//         } else {
-//           console.log('playback failed due to audio decoding errors');
+//   async function fetchJsonFile(script) {
+//     try {
+//         const response = await fetch(`../public/voice_recordings/letter_s.json`);
+        
+//         if (!response.ok) {
+//             throw new Error('Network response was not ok ' + response.statusText);
 //         }
-//       });
 
-//       startTime.current = Date.now();
-//     });
+//         const data = await response.json();
+//         console.log(data); // Do something with the data
+//     } catch (error) {
+//         console.error('There has been a problem with your fetch operation:', error);
+//     }
+// }
 
-//     return () => {
-//       if (sound.current) {
-//         sound.current.release();
-//       }
-//     };
-//   }, []);
+
 
   
+  useEffect(() => {
+    present_script = `${script}.mp3`;
+    sound.current = new Sound(present_script, Sound.MAIN_BUNDLE, (error) => {
+      if (error) {
+        console.log('failed to load the sound', error);
+        return;
+      }
+      console.log('duration in seconds: ' + sound.current.getDuration() + 'number of channels: ' + sound.current.getNumberOfChannels());
 
-//   useFrame(() => {
-//     if (!startTime.current) return;
-//     const elapsedTime = (Date.now() - startTime.current) / 1000;
+      sound.current.play((success) => {
+        if (success) {
+          console.log('successfully finished playing');
+          setAnimation('Idle');
+        } else {
+          console.log('playback failed due to audio decoding errors');
+        }
+      });
 
-//     // Reset all visemes
-//     Object.values(corresponding).forEach((value) => {
-//       nodes.Wolf3D_Head.morphTargetInfluences[nodes.Wolf3D_Head.morphTargetDictionary[value]] = 0;
-//       nodes.Wolf3D_Teeth.morphTargetInfluences[nodes.Wolf3D_Teeth.morphTargetDictionary[value]] = 0;
-//     });
+      startTime.current = Date.now();
+    });
 
-//     // Find the current mouth cue based on elapsed time
-//     const currentCue = lipsync.mouthCues.find((cue) => elapsedTime >= cue.start && elapsedTime <= cue.end);
-//     if (currentCue) {
-//       const viseme = corresponding[currentCue.value];
-//       if (viseme) {
-//         nodes.Wolf3D_Head.morphTargetInfluences[nodes.Wolf3D_Head.morphTargetDictionary[viseme]] = 1;
-//         nodes.Wolf3D_Teeth.morphTargetInfluences[nodes.Wolf3D_Teeth.morphTargetDictionary[viseme]] = 1;
-//       }
-//     }
-//   });
+    return () => {
+      if (sound.current) {
+        sound.current.release();
+      }
+    };
+  }, [script]);
 
+  var lipsync = require('../public/voice_recordings/letter_s.json');
 
+  useFrame(() => {
+    // var lipsync = 
+    if (!startTime.current) return;
+    const elapsedTime = (Date.now() - startTime.current) / 1000;
+
+    // Reset all visemes
+    Object.values(corresponding).forEach((value) => {
+      nodes.Wolf3D_Head.morphTargetInfluences[nodes.Wolf3D_Head.morphTargetDictionary[value]] = 0;
+      nodes.Wolf3D_Teeth.morphTargetInfluences[nodes.Wolf3D_Teeth.morphTargetDictionary[value]] = 0;
+    });
+
+    // Find the current mouth cue based on elapsed time
+    const currentCue = lipsync.mouthCues.find((cue) => elapsedTime >= cue.start && elapsedTime <= cue.end);
+    if (currentCue) {
+      const viseme = corresponding[currentCue.value];
+      if (viseme) {
+        nodes.Wolf3D_Head.morphTargetInfluences[nodes.Wolf3D_Head.morphTargetDictionary[viseme]] = 1;
+        nodes.Wolf3D_Teeth.morphTargetInfluences[nodes.Wolf3D_Teeth.morphTargetDictionary[viseme]] = 1;
+      }
+    }
+   
+  },[script]);
+
+  useEffect(() => {
+    actions[animation].reset().play();
+    return () => actions[animation].fadeOut();
+  }, [animation]);
+  
+
+  function sounds(){
+    setScript('fantastic')
+  }
+ 
+  lipsync= require('../public/voice_recordings/fantastic.json');
+
+//   setTimeout(sounds,5000);
+//   setScript('fantastic');
 
 return (
     <group {...props} dispose={null} ref={group}>

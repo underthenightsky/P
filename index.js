@@ -10,6 +10,7 @@ import MyStore from './redux_toolkit/MyStore';
 import {Provider} from 'react-redux';
 import {createStackNavigator} from '@react-navigation/stack';
 import {First} from './screens/first';
+import Welcome from './screens/welcome';
 import {NavigationContainer} from '@react-navigation/native';
 
 const Stack = createStackNavigator();
@@ -19,6 +20,7 @@ export default function Main() {
         <PaperProvider>
             <NavigationContainer>
             <Stack.Navigator>
+            <Stack.Screen name='Welcome' component={Welcome}/>
                 <Stack.Screen name='Introduction' component={App}/>
                 <Stack.Screen name ='First' component ={First}/>
             </Stack.Navigator>

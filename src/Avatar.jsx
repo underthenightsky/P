@@ -90,7 +90,7 @@ export default function Avatar(props) {
         nodes.Wolf3D_Teeth.morphTargetInfluences[nodes.Wolf3D_Teeth.morphTargetDictionary[viseme]] = 1;
       }
     }
-  });
+  },[]);
 
 
 
