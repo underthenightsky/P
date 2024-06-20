@@ -7,7 +7,7 @@ import { useDispatch,useSelector } from 'react-redux';
 // import * as Speech from 'expo-speech';
 import React from 'react';
 
-const App = () => {
+const App = ({navigation}) => {
   const[name , setName ] = useState('');
   const [expanded, setExpanded] = useState(true);
 
@@ -51,7 +51,7 @@ const playSound = () => {
       });
     });
   }
-
+   
 
   return (
     <View style ={{flex:1}}>
@@ -79,28 +79,10 @@ const playSound = () => {
      </Canvas>
 
    
-     <List.Section title="Audio">
-      
-    {/* // Placing the FAB outside the List.Section causes it to be visible all the time */}
-    {/* // but still it's not visoble above the accordion  */}
-      <List.Accordion
-        title="Choose Script"
-        expanded={expanded}
-        onPress={handlePress}>
-          {/* // Placing FAb inside List.Accordion causes it to be visible only when the Accordion is expanded   */}
-        <List.Item title="A"  onPress={()=>{setScript('a_for_apple')}}/>
-        <List.Item title="B" onPress={()=>{setScript('b_for_banana')}}/>
-        {/* The buttons were added to choose the required script from the available options but there are some issues in the redux toolkit which cause an error */}
-
-      </List.Accordion>
-      <FAB
-     label='Play'
-    style={styles.fab}
-    onPress={() => playSound()} // This function is used to play the sound
-  />
-     
-  {/* // Ideal placement of FAB is inside the List.Section */}
-    </List.Section>
+     <FAB label='Next' style={styles.fab}
+     onPress={()=>
+      navigation.navigate('First')
+     } />
     </View>
   )
 }
@@ -109,7 +91,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     // margin: 16,
     right: 0,
-    bottom: 45,
+    bottom: 60,
   },
 })
 

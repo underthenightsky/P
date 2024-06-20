@@ -8,12 +8,21 @@ import {name as appName} from './app.json';
 import { PaperProvider } from 'react-native-paper';
 import MyStore from './redux_toolkit/MyStore';
 import {Provider} from 'react-redux';
+import {createStackNavigator} from '@react-navigation/stack';
+import {First} from './screens/first';
+import {NavigationContainer} from '@react-navigation/native';
 
+const Stack = createStackNavigator();
 export default function Main() {
     return (
         <Provider store={MyStore}>
         <PaperProvider>
-        <App />
+            <NavigationContainer>
+            <Stack.Navigator>
+                <Stack.Screen name='Introduction' component={App}/>
+                <Stack.Screen name ='First' component ={First}/>
+            </Stack.Navigator>
+            </NavigationContainer>
         </PaperProvider>
         </Provider>
     );

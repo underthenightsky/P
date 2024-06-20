@@ -37,7 +37,10 @@ export default function Avatar(props) {
   const startTime = useRef(null);
 
 
- 
+  useEffect(() => {
+    actions[animation].reset().play();
+    return () => actions[animation].fadeOut();
+  }, [animation]);
   
   useEffect(() => {
     sound.current = new Sound('fin_introduction.mp3', Sound.MAIN_BUNDLE, (error) => {
@@ -66,10 +69,7 @@ export default function Avatar(props) {
     };
   }, []);
 
-  useEffect(() => {
-    actions[animation].reset().play();
-    return () => actions[animation].fadeOut();
-  }, [animation]);
+  
 
   useFrame(() => {
     if (!startTime.current) return;
@@ -129,6 +129,37 @@ return (
         morphTargetDictionary={nodes.Wolf3D_Teeth.morphTargetDictionary}
         morphTargetInfluences={nodes.Wolf3D_Teeth.morphTargetInfluences}
       />
+      <skinnedMesh
+        geometry={nodes.Wolf3D_Hair.geometry}
+        material={materials.Wolf3D_Hair}
+        skeleton={nodes.Wolf3D_Hair.skeleton}
+      />
+      <skinnedMesh
+        geometry={nodes.Wolf3D_Glasses.geometry}
+        material={materials.Wolf3D_Glasses}
+        skeleton={nodes.Wolf3D_Glasses.skeleton}
+      />
+      <skinnedMesh
+        geometry={nodes.Wolf3D_Body.geometry}
+        material={materials.Wolf3D_Body}
+        skeleton={nodes.Wolf3D_Body.skeleton}
+      />
+      <skinnedMesh
+        geometry={nodes.Wolf3D_Outfit_Bottom.geometry}
+        material={materials.Wolf3D_Outfit_Bottom}
+        skeleton={nodes.Wolf3D_Outfit_Bottom.skeleton}
+      />
+      <skinnedMesh
+        geometry={nodes.Wolf3D_Outfit_Footwear.geometry}
+        material={materials.Wolf3D_Outfit_Footwear}
+        skeleton={nodes.Wolf3D_Outfit_Footwear.skeleton}
+      />
+      <skinnedMesh
+        geometry={nodes.Wolf3D_Outfit_Top.geometry}
+        material={materials.Wolf3D_Outfit_Top}
+        skeleton={nodes.Wolf3D_Outfit_Top.skeleton}
+      />
+      
     </group>
   );
 }
