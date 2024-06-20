@@ -31,16 +31,16 @@ export default function Avatar(props) {
   talking[0].name = 'Talking';
 
   const group = useRef();
-  const { actions } = useAnimations([idleAnimation[0], angryAnimation[0], greetAnimation[0], talking[0]], group);
+//   const { actions } = useAnimations([idleAnimation[0], angryAnimation[0], greetAnimation[0], talking[0]], group);
 
   const sound = useRef(null);
   const startTime = useRef(null);
 
 
-  useEffect(() => {
-    actions[animation].reset().play();
-    return () => actions[animation].fadeOut();
-  }, [animation]);
+//   useEffect(() => {
+//     actions[animation].reset().play();
+//     return () => actions[animation].fadeOut();
+//   }, [animation]);
   
 //   useEffect(() => {
 //     sound.current = new Sound('fin_introduction.mp3', Sound.MAIN_BUNDLE, (error) => {

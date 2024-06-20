@@ -1,9 +1,8 @@
 import {View } from 'react-native'
 import React, { useRef, useState, useEffect } from 'react';
 import { useGLTF, useAnimations, useFBX } from '@react-three/drei/native';
-import Sound from 'react-native-sound';
-import { useFrame } from '@react-three/fiber/native';
-import Avatar from '../src/NormalAvatar'
+import Avatar from '../src/Avatar'
+
 export function First ({navigation}){
     const { nodes, materials } = useGLTF(require('../public/avatar/avatar_morph_2.glb'));
     const { animations: idleAnimation } = useFBX(require('../public/avatar/Idle.fbx'));
@@ -42,24 +41,23 @@ export function First ({navigation}){
     //   }, [animation]);
 
     return (
-        <View>
-             <Canvas  
-  onCreated={(state) => {
-    const _gl = state.gl.getContext();
-    const pixelStorei = _gl.pixelStorei.bind(_gl);
-
-    _gl.pixelStorei = function (...args) {
-      const [parameter] = args;
-      switch (parameter) {
-        case _gl.UNPACK_FLIP_Y_WEBGL:
-          return pixelStorei(...args);
-        default:
-        
-      }
-    };
-  }}
-     >
-      
+        <View style ={{flex:1}}>
+        <Canvas  Canvas
+     onCreated={(state) => {
+       const _gl = state.gl.getContext();
+       const pixelStorei = _gl.pixelStorei.bind(_gl);
+   
+       _gl.pixelStorei = function (...args) {
+         const [parameter] = args;
+         switch (parameter) {
+           case _gl.UNPACK_FLIP_Y_WEBGL:
+             return pixelStorei(...args);
+           default:
+           
+         }
+       };
+     }}
+        >
   <directionalLight position={[2,1,8]}/>
         <Suspense fallback={null}>
         <Avatar position={[0,-3,5]} scale ={2}/>
