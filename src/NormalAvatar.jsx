@@ -182,6 +182,16 @@ export default function Avatar(props) {
     }
   }, [message]);
 
+  // Function to compare message with text
+  const compareText = () => {
+    // Trim and convert text to lowercase to normalize
+    const trimmedText = text.replace(/\s+/g, '').toLowerCase();
+    console.log('trimmed text', trimmedText);
+    console.log('message', message);
+    let result = message.localeCompare(trimmedText);
+    return result === 0;
+  };
+
   var lipsync = require('../public/voice_recordings/letter_s.json');
 
   useFrame(() => {
