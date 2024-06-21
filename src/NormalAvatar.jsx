@@ -35,7 +35,7 @@ export default function Avatar(props) {
 
   const sound = useRef(null);
   const startTime = useRef(null);
-  const[script ,setScript] = useState('letter_s');
+  const[script ,setScript] = useState('try_again');
   
 
   
@@ -70,7 +70,7 @@ export default function Avatar(props) {
     };
   }, [script]);
 
-  var lipsync = require('../public/voice_recordings/letter_s.json');
+  var lipsync = require('../public/voice_recordings/try_again.json');
 
   useFrame(() => {
     // var lipsync = 

@@ -1,0 +1,20 @@
+{
+  "metadata": {
+    "soundFile": "C:\\Users\\1\\wedontgiveup\\English_Reading\\public\\voice_recordings\\try.ogg",
+    "duration": 3.17
+  },
+  "mouthCues": [
+    { "start": 0.00, "end": 0.10, "value": "X" },
+    { "start": 0.10, "end": 0.47, "value": "B" },
+    { "start": 0.47, "end": 0.50, "value": "X" },
+    { "start": 0.50, "end": 0.60, "value": "C" },
+    { "start": 0.60, "end": 1.21, "value": "B" },
+    { "start": 1.21, "end": 1.32, "value": "F" },
+    { "start": 1.32, "end": 1.81, "value": "C" },
+    { "start": 1.81, "end": 2.10, "value": "X" },
+    { "start": 2.10, "end": 2.36, "value": "B" },
+    { "start": 2.36, "end": 2.50, "value": "D" },
+    { "start": 2.50, "end": 2.71, "value": "B" },
+    { "start": 2.71, "end": 3.17, "value": "X" }
+  ]
+}
