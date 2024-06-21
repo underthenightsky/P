@@ -1,18 +1,75 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { useGLTF, useAnimations, useFBX } from '@react-three/drei/native';
+import React, {useRef, useState, useEffect} from 'react';
+import {useGLTF, useAnimations, useFBX} from '@react-three/drei/native';
 import Sound from 'react-native-sound';
-import { useFrame } from '@react-three/fiber/native';
-import { setScript } from '../redux_toolkit/scriptSlice';
+import {useFrame} from '@react-three/fiber/native';
+import {setScript} from '../redux_toolkit/scriptSlice';
+import Voice from '@react-native-community/voice';
+import Toast from 'react-native-toast-message';
 
 export default function Avatar(props) {
-  const { nodes, materials } = useGLTF(require('../public/avatar/avatar_morph_2.glb'));
-  const { animations: idleAnimation } = useFBX(require('../public/avatar/Idle.fbx'));
-  const { animations: angryAnimation } = useFBX(require('../public/avatar/Angry.fbx'));
-  const { animations: greetAnimation } = useFBX(require('../public/avatar/Standing_Greeting.fbx'));
-  const { animations: talking } = useFBX(require('../public/avatar/Talking.fbx'));
+  const [recording, setRecording] = useState(false);
+  const [message, setMessage] = useState('');
+  const [originalMessage, setOriginalMessage] = useState('');
+  const [countdown, setCountdown] = useState(10); // Added countdown state
+  const text = 'S for Sun';
+
+  const speechStartHandler = () => {
+    console.log('Speech started');
+  };
+
+  const speechEndHandler = () => {
+    setRecording(false);
+    console.log('Speech ended');
+  };
+
+  const speechResultsHandler = (e) => {
+    console.log('voice event', e);
+    const originalMsg = e.value[0];
+    const trimmedMsg = originalMsg.toString().replace(/\s+/g, '').toLowerCase();
+    setOriginalMessage(originalMsg);
+    setMessage(trimmedMsg);
+  };
+
+  const speechErrorHandler = (e) => {
+    setRecording(false);
+    console.log('Speech error', e.error);
+  };
+
+  const startRecording = async () => {
+    setOriginalMessage('');
+    setMessage('');
+    setRecording(true);
+    try {
+      await Voice.start('en-US');
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // const stopRecording = async () => {
+  //   try {
+  //     await Voice.stop();
+  //     setRecording(false);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  const {nodes, materials} = useGLTF(
+    require('../public/avatar/avatar_morph_2.glb'),
+  );
+  const {animations: idleAnimation} = useFBX(
+    require('../public/avatar/Idle.fbx'),
+  );
+  const {animations: angryAnimation} = useFBX(
+    require('../public/avatar/Angry.fbx'),
+  );
+  const {animations: greetAnimation} = useFBX(
+    require('../public/avatar/Standing_Greeting.fbx'),
+  );
+  const {animations: talking} = useFBX(require('../public/avatar/Talking.fbx'));
   const [animation, setAnimation] = useState('Talking');
 
- 
   const corresponding = {
     A: 'viseme_PP',
     B: 'viseme_kk',
@@ -31,24 +88,30 @@ export default function Avatar(props) {
   talking[0].name = 'Talking';
 
   const group = useRef();
-  const { actions } = useAnimations([idleAnimation[0], angryAnimation[0], greetAnimation[0], talking[0]], group);
+  const {actions} = useAnimations(
+    [idleAnimation[0], angryAnimation[0], greetAnimation[0], talking[0]],
+    group,
+  );
 
   const sound = useRef(null);
   const startTime = useRef(null);
-  const[script ,setScript] = useState('letter_s');
-  
+  const [script, setScript] = useState('letter_s');
 
-  
   useEffect(() => {
     present_script = `${script}.mp3`;
-    sound.current = new Sound(present_script, Sound.MAIN_BUNDLE, (error) => {
+    sound.current = new Sound(present_script, Sound.MAIN_BUNDLE, error => {
       if (error) {
         console.log('failed to load the sound', error);
         return;
       }
-      console.log('duration in seconds: ' + sound.current.getDuration() + 'number of channels: ' + sound.current.getNumberOfChannels());
+      console.log(
+        'duration in seconds: ' +
+          sound.current.getDuration() +
+          'number of channels: ' +
+          sound.current.getNumberOfChannels(),
+      );
 
-      sound.current.play((success) => {
+      sound.current.play(success => {
         if (success) {
           console.log('successfully finished playing');
           setAnimation('Idle');
@@ -58,60 +121,116 @@ export default function Avatar(props) {
       });
 
       startTime.current = Date.now();
+      Voice.onSpeechStart = speechStartHandler;
+      Voice.onSpeechEnd = speechEndHandler;
+      Voice.onSpeechResults = speechResultsHandler;
+      Voice.onSpeechError = speechErrorHandler;
+      const countdownInterval = setInterval(() => {
+        setCountdown(prev => {
+          if (prev > 1) return prev - 1;
+          clearInterval(countdownInterval);
+          startRecording();
+          console.log('mic on');
+          return 0;
+        });
+      }, 1000);
     });
+
+   
 
     return () => {
       if (sound.current) {
         sound.current.release();
-      };
+      }
       console.log(script);
-    //   setScript('fantastic');
+      //   setScript('fantastic');
       console.log(script);
     };
   }, [script]);
 
+
+  useEffect(() => {
+    if (message) {
+      if (compareText()) {
+        Toast.show({
+          type: 'success',
+          text1: 'The sentence is correct',
+          visibilityTime: 2000,
+        });
+        setTimeout(sounds, 12000);
+        startTime.current = Date.now();
+      } else {
+        Toast.show({
+          type: 'error',
+          text1: 'The sentence is incorrect',
+          visibilityTime: 2000,
+        });
+
+        // Restart mic after 7 seconds if input is incorrect
+        setTimeout(() => {
+          const countdownInterval = setInterval(() => {
+            setCountdown((prev) => {
+              if (prev > 1) return prev - 1;
+              clearInterval(countdownInterval);
+              startRecording();
+              console.log("mic on for incorrect input")
+              return 0;
+            });
+          }, 1000);
+        }, 7000);
+      }
+    }
+  }, [message]);
+
   var lipsync = require('../public/voice_recordings/letter_s.json');
 
   useFrame(() => {
-    // var lipsync = 
+    // var lipsync =
     if (!startTime.current) return;
     const elapsedTime = (Date.now() - startTime.current) / 1000;
 
     // Reset all visemes
-    Object.values(corresponding).forEach((value) => {
-      nodes.Wolf3D_Head.morphTargetInfluences[nodes.Wolf3D_Head.morphTargetDictionary[value]] = 0;
-      nodes.Wolf3D_Teeth.morphTargetInfluences[nodes.Wolf3D_Teeth.morphTargetDictionary[value]] = 0;
+    Object.values(corresponding).forEach(value => {
+      nodes.Wolf3D_Head.morphTargetInfluences[
+        nodes.Wolf3D_Head.morphTargetDictionary[value]
+      ] = 0;
+      nodes.Wolf3D_Teeth.morphTargetInfluences[
+        nodes.Wolf3D_Teeth.morphTargetDictionary[value]
+      ] = 0;
     });
 
     // Find the current mouth cue based on elapsed time
-    const currentCue = lipsync.mouthCues.find((cue) => elapsedTime >= cue.start && elapsedTime <= cue.end);
+    const currentCue = lipsync.mouthCues.find(
+      cue => elapsedTime >= cue.start && elapsedTime <= cue.end,
+    );
     if (currentCue) {
       const viseme = corresponding[currentCue.value];
       if (viseme) {
-        nodes.Wolf3D_Head.morphTargetInfluences[nodes.Wolf3D_Head.morphTargetDictionary[viseme]] = 1;
-        nodes.Wolf3D_Teeth.morphTargetInfluences[nodes.Wolf3D_Teeth.morphTargetDictionary[viseme]] = 1;
+        nodes.Wolf3D_Head.morphTargetInfluences[
+          nodes.Wolf3D_Head.morphTargetDictionary[viseme]
+        ] = 1;
+        nodes.Wolf3D_Teeth.morphTargetInfluences[
+          nodes.Wolf3D_Teeth.morphTargetDictionary[viseme]
+        ] = 1;
       }
     }
-   
-  },[script]);
+  }, [script]);
 
   useEffect(() => {
     actions[animation].reset().play();
     return () => actions[animation].fadeOut();
   }, [animation]);
-  
 
-  function sounds(){
-    setScript('fantastic')
+  function sounds() {
+    setScript('fantastic');
   }
+
+  lipsync = require('../public/voice_recordings/fantastic.json');
+
  
-  lipsync= require('../public/voice_recordings/fantastic.json');
+  //   setScript('fantastic');
 
-  setTimeout(sounds,12000);
-  startTime.current= Date.now();
-//   setScript('fantastic');
-
-return (
+  return (
     <group {...props} dispose={null} ref={group}>
       <primitive object={nodes.Hips} />
       <skinnedMesh
@@ -176,7 +295,6 @@ return (
         material={materials.Wolf3D_Outfit_Top}
         skeleton={nodes.Wolf3D_Outfit_Top.skeleton}
       />
-      
     </group>
   );
 }
