@@ -29,7 +29,7 @@ export function First({navigation}) {
           <Avatar position={[0, -3, 5]} scale={2} />
         </Suspense>
       </Canvas>
-      <FAB label="S" style={styles.fab} />
+      <FAB label="S for Sun" style={styles.fab} />
     </View>
   );
 }
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   fab: {
     position: 'absolute',
     // margin: 16,
-    right: 160,
+    right: 130,
     bottom: 60,
   },
 });

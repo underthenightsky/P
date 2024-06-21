@@ -24,10 +24,13 @@ export default function Avatar(props) {
 
   const speechResultsHandler = (e) => {
     console.log('voice event', e);
-    const originalMsg = e.value[0];
-    const trimmedMsg = originalMsg.toString().replace(/\s+/g, '').toLowerCase();
+    // const originalMsg = e.value[0];
+    const originalMsg = e.value;
+    // const trimmedMsg = originalMsg.toString().replace(/\s+/g, '').toLowerCase();
     setOriginalMessage(originalMsg);
-    setMessage(trimmedMsg);
+
+    // setMessage(trimmedMsg);
+    setMessage(originalMsg);
   };
 
   const speechErrorHandler = (e) => {
@@ -125,6 +128,7 @@ export default function Avatar(props) {
       Voice.onSpeechEnd = speechEndHandler;
       Voice.onSpeechResults = speechResultsHandler;
       Voice.onSpeechError = speechErrorHandler;
+
       const countdownInterval = setInterval(() => {
         setCountdown(prev => {
           if (prev > 1) return prev - 1;
@@ -157,7 +161,9 @@ export default function Avatar(props) {
           text1: 'The sentence is correct',
           visibilityTime: 2000,
         });
-        setTimeout(sounds, 12000);
+        setScript('fantastic');
+        lipsync = require('../public/voice_recordings/fantastic.json');
+        // setTimeout(sounds, 12000);
         startTime.current = Date.now();
       } else {
         Toast.show({
@@ -165,6 +171,8 @@ export default function Avatar(props) {
           text1: 'The sentence is incorrect',
           visibilityTime: 2000,
         });
+        setScript('try_again');
+        lipsync = require('../public/voice_recordings/try_again.json');
 
         // Restart mic after 7 seconds if input is incorrect
         setTimeout(() => {
@@ -188,11 +196,18 @@ export default function Avatar(props) {
     const trimmedText = text.replace(/\s+/g, '').toLowerCase();
     console.log('trimmed text', trimmedText);
     console.log('message', message);
-    let result = message.localeCompare(trimmedText);
+    result =-1 ;
+    for (let i = 0; i < message.length; i++) {
+      message[i] = message[i].replace(/\s+/g, '').toLowerCase();
+      if (message[i].localeCompare(trimmedText) ===0 ) {
+        result=0;
+      }
+    }
+    // let result = message.localeCompare(trimmedText);
     return result === 0;
   };
 
-  var lipsync = require('../public/voice_recordings/letter_s.json');
+  // var lipsync = require('../public/voice_recordings/letter_s.json');
 
   useFrame(() => {
     // var lipsync =
