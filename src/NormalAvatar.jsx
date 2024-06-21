@@ -70,7 +70,48 @@ export default function Avatar(props) {
     };
   }, [script]);
 
+<<<<<<< Updated upstream
   var lipsync = require('../public/voice_recordings/try_again.json');
+=======
+
+  useEffect(() => {
+    if (message) {
+      if (compareText()) {
+        Toast.show({
+          type: 'success',
+          text1: 'The sentence is correct',
+          visibilityTime: 2000,
+        });
+        setScript('fantastic');
+        lipsync = require('../public/voice_recordings/fantastic.json');
+        setTimeout(sounds, 12000);
+        startTime.current = Date.now();
+      } else {
+        Toast.show({
+          type: 'error',
+          text1: 'The sentence is incorrect',
+          visibilityTime: 2000,
+        });
+        setScript('try_again');
+        lipsync = require('../public/voice_recordings/try_again.json');
+        // Restart mic after 7 seconds if input is incorrect
+        setTimeout(() => {
+          const countdownInterval = setInterval(() => {
+            setCountdown((prev) => {
+              if (prev > 1) return prev - 1;
+              clearInterval(countdownInterval);
+              startRecording();
+              console.log("mic on for incorrect input")
+              return 0;
+            });
+          }, 1000);
+        }, 7000);
+      }
+    }
+  }, [message]);
+
+  var lipsync = require('../public/voice_recordings/letter_s.json');
+>>>>>>> Stashed changes
 
   useFrame(() => {
     // var lipsync = 
@@ -104,6 +145,12 @@ export default function Avatar(props) {
   function sounds(){
     setScript('fantastic')
   }
+<<<<<<< Updated upstream
+=======
+
+  
+
+>>>>>>> Stashed changes
  
   lipsync= require('../public/voice_recordings/fantastic.json');
 
