@@ -1,0 +1,29 @@
+{
+  "metadata": {
+    "soundFile": "C:\\Users\\1\\wedontgiveup\\English_Reading\\public\\voice_recordings\\fantastic.ogg",
+    "duration": 4.09
+  },
+  "mouthCues": [
+    { "start": 0.00, "end": 0.11, "value": "X" },
+    { "start": 0.11, "end": 0.23, "value": "C" },
+    { "start": 0.23, "end": 0.30, "value": "B" },
+    { "start": 0.30, "end": 0.51, "value": "C" },
+    { "start": 0.51, "end": 0.65, "value": "G" },
+    { "start": 0.65, "end": 0.79, "value": "F" },
+    { "start": 0.79, "end": 1.46, "value": "X" },
+    { "start": 1.46, "end": 1.61, "value": "F" },
+    { "start": 1.61, "end": 1.68, "value": "B" },
+    { "start": 1.68, "end": 1.89, "value": "F" },
+    { "start": 1.89, "end": 2.38, "value": "B" },
+    { "start": 2.38, "end": 3.03, "value": "X" },
+    { "start": 3.03, "end": 3.11, "value": "A" },
+    { "start": 3.11, "end": 3.24, "value": "C" },
+    { "start": 3.24, "end": 3.45, "value": "B" },
+    { "start": 3.45, "end": 3.59, "value": "C" },
+    { "start": 3.59, "end": 3.73, "value": "D" },
+    { "start": 3.73, "end": 3.87, "value": "B" },
+    { "start": 3.87, "end": 3.94, "value": "C" },
+    { "start": 3.94, "end": 4.01, "value": "B" },
+    { "start": 4.01, "end": 4.09, "value": "X" }
+  ]
+}

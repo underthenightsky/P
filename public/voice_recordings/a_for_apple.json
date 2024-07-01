@@ -1,0 +1,17 @@
+{
+  "metadata": {
+    "soundFile": "C:\\Users\\1\\wedontgiveup\\P\\public\\voice_recordings\\a_for_apple.ogg",
+    "duration": 1.09
+  },
+  "mouthCues": [
+    { "start": 0.00, "end": 0.10, "value": "X" },
+    { "start": 0.10, "end": 0.20, "value": "A" },
+    { "start": 0.20, "end": 0.30, "value": "B" },
+    { "start": 0.30, "end": 0.37, "value": "G" },
+    { "start": 0.37, "end": 0.44, "value": "E" },
+    { "start": 0.44, "end": 0.51, "value": "B" },
+    { "start": 0.51, "end": 0.58, "value": "C" },
+    { "start": 0.58, "end": 0.86, "value": "B" },
+    { "start": 0.86, "end": 1.09, "value": "X" }
+  ]
+}

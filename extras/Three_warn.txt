@@ -1,0 +1,6 @@
+WARN  THREE.PropertyBinding: No target node found for track: Armature.quaternion.
+    at Avatar (http://localhost:8081/index.bundle//&platform=android&dev=true&lazy=true&minify=false&app=com.p&modulesOnly=false&runModule=true:132917:41)
+    at Suspense
+    at Suspense
+    at ErrorBoundary (http://localhost:8081/index.bundle//&platform=android&dev=true&lazy=true&minify=false&app=com.p&modulesOnly=false&run4:36)
+    at Provider (http://localhost:8081/index.bundle//&platform=android&dev=true&lazy=true&minify=false&app=com.p&modulesOnly=false&runModule=true:209473:23)
