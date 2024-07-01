@@ -86,7 +86,7 @@ const Avatar = ({ currentAudioIndex, audioFiles }) => {
     if (currentCue) {
       const viseme = corresponding[currentCue.value];
       if (viseme) {
-        nodes.Wolf3D_Head.morphTargetInfluences[nodes.Wolf3D_Head.morphTargetDictionary[viseme]] = 1;
+        nodes.Wolf3D_Head.morphTargetInfluences[nodes.Wolf3D_Head.morphTargetDictionary[viseme]] = 1; 
         nodes.Wolf3D_Teeth.morphTargetInfluences[nodes.Wolf3D_Teeth.morphTargetDictionary[viseme]] = 1;
       }
     }
