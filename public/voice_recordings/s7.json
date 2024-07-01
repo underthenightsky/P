@@ -1,0 +1,16 @@
+{
+  "metadata": {
+    "soundFile": "C:\\Users\\1\\wedontgiveup\\English_Reading\\public\\voice_recordings\\school.ogg",
+    "duration": 2.19
+  },
+  "mouthCues": [
+    { "start": 0.00, "end": 0.17, "value": "X" },
+    { "start": 0.17, "end": 0.30, "value": "B" },
+    { "start": 0.30, "end": 0.44, "value": "C" },
+    { "start": 0.44, "end": 0.58, "value": "H" },
+    { "start": 0.58, "end": 1.03, "value": "X" },
+    { "start": 1.03, "end": 1.41, "value": "C" },
+    { "start": 1.41, "end": 1.69, "value": "B" },
+    { "start": 1.69, "end": 2.19, "value": "X" }
+  ]
+}

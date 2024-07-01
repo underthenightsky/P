@@ -15,6 +15,9 @@ const Second = ({ navigation }) => {
     { file: 's2.mp3', json: require('../public/voice_recordings/s2.json') },
     { file: 's3.mp3', json: require('../public/voice_recordings/s3.json') },
     { file: 's4.mp3', json: require('../public/voice_recordings/s4.json') },
+    { file: 's5.mp3', json: require('../public/voice_recordings/s5.json') },
+    { file: 's6.mp3', json: require('../public/voice_recordings/s6.json') },
+    { file: 's7.mp3', json: require('../public/voice_recordings/s7.json') },
   ];
 
   // Function to handle "Next" button press
