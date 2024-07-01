@@ -37,7 +37,7 @@ const Avatar = ({ currentAudioIndex, audioFiles }) => {
   const loadAudio = async (index) => {
     if (index < audioFiles.length) {
       const { file, json } = audioFiles[index];
-      setLipSyncData(json); // Set lip-sync data
+      setLipSyncData(json); 
 
       sound.current = new Sound(file, Sound.MAIN_BUNDLE, (error) => {
         if (error) {

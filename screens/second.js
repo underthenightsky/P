@@ -22,7 +22,6 @@ const Second = ({ navigation }) => {
     if (currentAudioIndex < audioFiles.length - 1) {
       setCurrentAudioIndex(currentAudioIndex + 1);
     } else {
-      // Optionally, navigate to another screen or handle end of audio list
       navigation.navigate('NextScreen');
     }
   };
