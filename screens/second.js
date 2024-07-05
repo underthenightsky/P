@@ -12,6 +12,8 @@ const Second = ({ navigation }) => {
   const [isPlaying, setIsPlaying] = useState(false); // State to manage playing state
 
   const audioFiles = [
+    {files:'jithu_intro.mp3', require:'../public/voice_recordings/jithu_intro.json'},
+    {files:'letter_s.mp3',require:'../public/voice_recordings/letter_s.json'},
     { file: 's2.mp3', json: require('../public/voice_recordings/s2.json') },
     { file: 's3.mp3', json: require('../public/voice_recordings/s3.json') },
     { file: 's4.mp3', json: require('../public/voice_recordings/s4.json') },
