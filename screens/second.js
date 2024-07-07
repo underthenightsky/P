@@ -12,20 +12,33 @@ const Second = ({ navigation }) => {
   const [isPlaying, setIsPlaying] = useState(false); // State to manage playing state
 
   const audioFiles = [
-    {files:'jithu_intro.mp3', require:'../public/voice_recordings/jithu_intro.json'},
-    {files:'letter_s.mp3',require:'../public/voice_recordings/letter_s.json'},
-    { file: 's2.mp3', json: require('../public/voice_recordings/s2.json') },
-    { file: 's3.mp3', json: require('../public/voice_recordings/s3.json') },
-    { file: 's4.mp3', json: require('../public/voice_recordings/s4.json') },
-    { file: 's5.mp3', json: require('../public/voice_recordings/s5.json') },
-    { file: 's6.mp3', json: require('../public/voice_recordings/s6.json') },
-    { file: 's7.mp3', json: require('../public/voice_recordings/s7.json') },
-    {file:'s8.mp3' ,json:require('../public/voice_recordings/s8.json')},
-    {file:'s9.mp3', json:require('../public/voice_recordings/s9.json')},
-    {file:'s10.mp3',json:require('../public/voice_recordings/s10.json')},
-    {file:'s11.mp3',json:require('../public/voice_recordings/s11.json')},
-    {file:'s12.mp3',json:require('../public/voice_recordings/s12.json')},
-    {file:'s13.mp3',json:require('../public/voice_recordings/s13.json')}
+    {
+      files: 'jithu_intro.mp3',
+      require: '../public/voice_recordings/jithu_intro.json',
+    },
+    {
+      files: 'letter_s.mp3',
+      require: '../public/voice_recordings/letter_s.json',
+    },
+    {file: 's2.mp3', json: require('../public/voice_recordings/s2.json')},
+    {file: 's3.mp3', json: require('../public/voice_recordings/s3.json')},
+    {file: 's4.mp3', json: require('../public/voice_recordings/s4.json')},
+    {file: 's5.mp3', json: require('../public/voice_recordings/s5.json')},
+    {file: 's6.mp3', json: require('../public/voice_recordings/s6.json')},
+    {file: 's7.mp3', json: require('../public/voice_recordings/s7.json')},
+    {file: 's8.mp3', json: require('../public/voice_recordings/s8.json')},
+    {file: 's9.mp3', json: require('../public/voice_recordings/s9.json')},
+    {file: 's10.mp3', json: require('../public/voice_recordings/s10.json')},
+    {file: 's11.mp3', json: require('../public/voice_recordings/s11.json')},
+    {file: 's12.mp3', json: require('../public/voice_recordings/s12.json')},
+    {file: 's13.mp3', json: require('../public/voice_recordings/s13.json')},
+    {file: 's14.mp3', json: require('../public/voice_recordings/s14.json')},
+    {file: 's15.mp3', json: require('../public/voice_recordings/s15.json')},
+    {file: 's16.mp3', json: require('../public/voice_recordings/s16.json')},
+    {file: 's17.mp3', json: require('../public/voice_recordings/s17.json')},
+    {file: 's18.mp3', json: require('../public/voice_recordings/s18.json')},
+    {file: 's19.mp3', json: require('../public/voice_recordings/s19.json')},
+    {file: 's20.mp3', json: require('../public/voice_recordings/s20.json')},
   ];
 
   // Function to handle "Next" button press
